@@ -3,7 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit</title>
+    <title>Edit Campground</title>
   </head>
-  <body></body>
+  <body>
+    <h1>Update Campgrounds</h1>
+    <form action="/campgrounds/edit/<%= campground.id %>" method="POST">
+      <label for="title">Title :</label>
+      <input
+        name="campground[title]"
+        type="text"
+        value="<%= campground.title %>"
+      />
+      <label for="location">Location :</label>
+      <input
+        name="campground[location]"
+        type="text"
+        value="<%= campground.location %>"
+      />
+      <button type="submit">Update</button>
+    </form>
+    <a href="/campgrounds"><h2>All Campgrounds</h2></a>
+  </body>
 </html>
