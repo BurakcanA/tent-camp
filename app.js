@@ -12,7 +12,7 @@ db.once('open',() => console.log('Database Connected!'))
 app.set('view engne','ejs')
 app.set('views',path.join(__dirname,'views'))
 
-// app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: true}))
 
 app.get('/home', (req, res) => {
     res.send('WELCOME TO TENT CAMP!')
@@ -25,6 +25,16 @@ app.get('/campgrounds', async (req, res) => {
 
 app.get('/campgrounds/new' , async (req, res) => {
     res.render('campgrounds/new.ejs')    
+})
+
+app.post('/campgrounds', async (req, res) => {
+    await Campground.insertOne(req.body.campground)
+    .then((data) => 
+        console.log(data),
+    )
+    .catch(err => console.log(`Insert Failed ${err}`))
+
+    res.redirect('./campgrounds')
 })
 
 app.get('/campgrounds/edit/:id', async (req,res) => {
