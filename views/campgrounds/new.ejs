@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New Campgrounds</title>
-  </head>
-  <body>
-    <h1>New Campgrounds</h1>
-    <form action="/campgrounds" method="POST">
-      <label for="title">Title :</label>
-      <input name="campground[title]" type="text" />
-      <label for="location">Location :</label>
-      <input name="campground[location]" type="text" />
-      <button type="submit">Create New</button>
-    </form>
-    <a href="/campgrounds"><h2>All Campgrounds</h2></a>
-  </body>
-</html>
+<%- layout('layouts/boilerPlate.ejs') %>
+<h1>New Campgrounds</h1>
+<form action="/campgrounds" method="POST">
+  <label for="title">Title :</label>
+  <input name="campground[title]" type="text" />
+  <label for="location">Location :</label>
+  <input name="campground[location]" type="text" />
+  <button type="submit">Create New</button>
+</form>
+<a href="/campgrounds"><h2>All Campgrounds</h2></a>

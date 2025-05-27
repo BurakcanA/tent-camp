@@ -1,11 +1,14 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
+const ejsMate = require('ejs-mate')
 const app = express()
 const Campground = require('./models/campground.js')
 
 app.set('view engne','ejs')
 app.set('views',path.join(__dirname,'views'))
+
+app.engine('ejs',ejsMate)
 
 app.use(express.urlencoded({extended: true}))
 
