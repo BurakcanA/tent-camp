@@ -1,14 +1,55 @@
 <%- layout('layouts/boilerPlate.ejs') %>
-<h1>Update Campgrounds</h1>
-<form action="/campgrounds/edit/<%= campground.id %>" method="POST">
-  <label for="title">Title :</label>
-  <input name="campground[title]" type="text" value="<%= campground.title %>" />
-  <label for="location">Location :</label>
-  <input
-    name="campground[location]"
-    type="text"
-    value="<%= campground.location %>"
-  />
-  <button type="submit">Update</button>
+<div class="p-2">
+  <h1>Update Campground</h1>
+</div>
+<form class="mb-3" action="/campgroundsedit/<%= campground.id %>" method="POST">
+  <div class="mb-3">
+    <label class="form-label" for="title">Title :</label>
+    <input
+      class="form-control"
+      name="campground[title]"
+      type="text"
+      value="<%= campground.title %>"
+    />
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="location">Location :</label>
+    <input
+      class="form-control"
+      name="campground[location]"
+      type="text"
+      value="<%= campground.location %>"
+    />
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="description">Description :</label>
+    <textarea class="form-control" name="campground[description]" type="text">
+<%= campground.description %></textarea
+    >
+  </div>
+  <div class="mb-3">
+    <label for="price" class="form-label">Price :</label>
+    <div class="input-group">
+      <span class="input-group-text">$</span>
+      <input
+        type="text"
+        class="form-control"
+        name="campground[price]"
+        aria-label="Amount (to the nearest dollar)"
+        value="<%= campground.price %>"
+      />
+      <span class="input-group-text">.00</span>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="image">Image Url :</label>
+    <input
+      class="form-control"
+      type="text"
+      name="campground[image]"
+      value="<%= campground.image %>"
+    />
+  </div>
+  <button class="btn btn-secondary">Update</button>
 </form>
-<a href="/campgrounds"><h2>All Campgrounds</h2></a>
+<a href="/campgrounds">All Campgrounds</a>
