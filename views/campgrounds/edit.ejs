@@ -2,7 +2,12 @@
 <div class="p-2">
   <h1>Update Campground</h1>
 </div>
-<form class="mb-3" action="/campgroundsedit/<%= campground.id %>" method="POST">
+<form
+  class="mb-3 validated-form"
+  action="/campgrounds/edit/<%= campground.id %>"
+  method="POST"
+  novalidate
+>
   <div class="mb-3">
     <label class="form-label" for="title">Title :</label>
     <input
@@ -10,7 +15,9 @@
       name="campground[title]"
       type="text"
       value="<%= campground.title %>"
+      required
     />
+    <div class="invalid-feedback">Title is required</div>
   </div>
   <div class="mb-3">
     <label class="form-label" for="location">Location :</label>
@@ -19,13 +26,21 @@
       name="campground[location]"
       type="text"
       value="<%= campground.location %>"
+      required
     />
   </div>
+  <div class="invalid-feedback">Location is required</div>
   <div class="mb-3">
     <label class="form-label" for="description">Description :</label>
-    <textarea class="form-control" name="campground[description]" type="text">
+    <textarea
+      class="form-control"
+      name="campground[description]"
+      type="text"
+      required
+    >
 <%= campground.description %></textarea
     >
+    <div class="invalid-feedback">Description is required</div>
   </div>
   <div class="mb-3">
     <label for="price" class="form-label">Price :</label>
@@ -37,8 +52,10 @@
         name="campground[price]"
         aria-label="Amount (to the nearest dollar)"
         value="<%= campground.price %>"
+        required
       />
       <span class="input-group-text">.00</span>
+      <div class="invalid-feedback">Price is required</div>
     </div>
   </div>
   <div class="mb-3">
@@ -48,8 +65,10 @@
       type="text"
       name="campground[image]"
       value="<%= campground.image %>"
+      required
     />
   </div>
+  <div class="invalid-feedback">Image Url is required</div>
   <button class="btn btn-secondary">Update</button>
 </form>
 <a href="/campgrounds">All Campgrounds</a>
