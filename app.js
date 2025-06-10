@@ -4,6 +4,9 @@ const path = require('path')
 const ejsMate = require('ejs-mate')
 const app = express()
 const Campground = require('./models/campground.js')
+const catchAsync = require('./utils/catchAsync.js')
+const ExpressError = require('./utils/ExpressError.js')
+const { campgroundJoiSchema } = require('./schemas.js')
 
 app.set('view engne','ejs')
 app.set('views',path.join(__dirname,'views'))
@@ -11,6 +14,16 @@ app.set('views',path.join(__dirname,'views'))
 app.engine('ejs',ejsMate)
 
 app.use(express.urlencoded({extended: true}))
+
+const validateCampgroundAsync = async (req,res,next) => {
+    const { error } = campgroundJoiSchema.validate(req.body)
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(400, msg)
+    } else {
+        next()
+    }
+}
 
 const db = mongoose.connection;
 mongoose.connect('mongodb://127.0.0.1:27017/Tent-Camp')
@@ -30,12 +43,10 @@ app.get('/campgrounds/new' , async (req, res) => {
     res.render('campgrounds/new.ejs')    
 })
 
-app.post('/campgrounds', async (req, res) => {
+app.post('/campgrounds', validateCampgroundAsync, catchAsync( async (req, res, next) => {
     await Campground.insertOne(req.body.campground)
-    .then(data => console.log(data))
-    .catch(err => console.log(`Insert Failed ${err}`))
     res.redirect('./campgrounds')
-})
+}))
 
 app.get('/campgrounds/detail/:id', async (req, res) => {
     const campground = await Campground.findById(req.params.id)
@@ -47,14 +58,12 @@ app.get('/campgrounds/edit/:id', async (req,res) => {
     res.render('campgrounds/edit.ejs', { campground })
 })
 
-app.post('/campgrounds/edit/:id', async (req, res) => {
+app.post('/campgrounds/edit/:id', validateCampgroundAsync, catchAsync( async (req, res) => {
     const { id } = req.params
     const campground = req.body.campground
     await Campground.findByIdAndUpdate(id, campground,{new:true})
-        .then(data => console.log(`Success, Updated Data: ${data}`))
-        .catch(err => console.log(`Failed : ${err}`))
     res.redirect(`/campgrounds/detail/${id}`)
-})
+}))
 
 app.post('/campgrounds/delete/:id', async (req,res) => {
     const { id } = req.params
@@ -62,6 +71,16 @@ app.post('/campgrounds/delete/:id', async (req,res) => {
         .then(data => console.log(`Deleted,${data}`))
         .catch(err => console.log(`Failed ${err}`))
     res.redirect('/campgrounds')
+})
+
+app.all(/(.*)/, (req,res,next) => {
+    next(new ExpressError(404, 'Page Not Found'))
+})
+
+app.use((err,req,res,next) => {
+    const { statusCode = 500 } = err
+    if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+    res.status(statusCode).render('error.ejs', { err })
 })
 
 app.listen('3000', () => {
