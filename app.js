@@ -7,6 +7,7 @@ const Campground = require('./models/campground.js')
 const catchAsync = require('./utils/catchAsync.js')
 const ExpressError = require('./utils/ExpressError.js')
 const { campgroundJoiSchema } = require('./schemas.js')
+const Review = require('./models/review.js')
 
 app.set('view engne','ejs')
 app.set('views',path.join(__dirname,'views'))
@@ -72,6 +73,15 @@ app.post('/campgrounds/delete/:id', async (req,res) => {
         .catch(err => console.log(`Failed ${err}`))
     res.redirect('/campgrounds')
 })
+
+app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+    
+    const review = new Review(req.body.review)
+    await review.save()
+    const campground = await Campground.findByIdAndUpdate(req.params.id, {reviews: review})
+    console.log(review)
+    res.redirect(`/campgrounds/detail/${campground._id}`)
+}))
 
 app.all(/(.*)/, (req,res,next) => {
     next(new ExpressError(404, 'Page Not Found'))
