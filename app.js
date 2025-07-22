@@ -6,7 +6,7 @@ const app = express()
 const Campground = require('./models/campground.js')
 const catchAsync = require('./utils/catchAsync.js')
 const ExpressError = require('./utils/ExpressError.js')
-const { campgroundJoiSchema } = require('./schemas.js')
+const { campgroundJoiSchema, reviewJoiSchema} = require('./schemas.js')
 const Review = require('./models/review.js')
 
 app.set('view engne','ejs')
@@ -18,6 +18,16 @@ app.use(express.urlencoded({extended: true}))
 
 const validateCampgroundAsync = async (req,res,next) => {
     const { error } = campgroundJoiSchema.validate(req.body)
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(400, msg)
+    } else {
+        next()
+    }
+}
+
+const validateReviewAsync = async (req,res,next) => {
+    const { error } = reviewJoiSchema.validate(req.body)
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(400, msg)
@@ -74,7 +84,7 @@ app.post('/campgrounds/delete/:id', async (req,res) => {
     res.redirect('/campgrounds')
 })
 
-app.post('/campgrounds/:id/reviews', catchAsync(async (req, res) => {
+app.post('/campgrounds/:id/reviews', validateReviewAsync, catchAsync(async (req, res) => {
     
     const review = new Review(req.body.review)
     await review.save()
