@@ -16,6 +16,7 @@ app.engine('ejs',ejsMate)
 
 app.use(express.urlencoded({extended: true}))
 
+//Validations
 const validateCampgroundAsync = async (req,res,next) => {
     const { error } = campgroundJoiSchema.validate(req.body)
     if (error) {
@@ -45,6 +46,7 @@ app.get('/home', (req, res) => {
     res.send('WELCOME TO TENT CAMP!')
 })
 
+//Campground Routes
 app.get('/campgrounds', async (req, res) => {
     const campgrounds = await Campground.find()
     res.render('campgrounds/index.ejs', { campgrounds })
@@ -85,13 +87,23 @@ app.post('/campgrounds/delete/:id', async (req,res) => {
     res.redirect('/campgrounds')
 })
 
+//Review Routes
+
 app.post('/campgrounds/:id/reviews', validateReviewAsync, catchAsync(async (req, res) => {
     
     const review = new Review(req.body.review)
     await review.save()
-    const campground = await Campground.findByIdAndUpdate(req.params.id, {reviews: review})
+    const campground = await Campground.findByIdAndUpdate(req.params.id, {$push: {reviews: review}})
     console.log(review)
     res.redirect(`/campgrounds/detail/${campground._id}`)
+}))
+
+//Delete You can use method_override for better read
+app.post('/campgrounds/:id/reviews/:reviewId', catchAsync( async (req,res) => {
+    const {id, reviewId} = req.params
+    await Campground.findByIdAndUpdate(id, {$pull: {reviews: reviewId}})
+    await Review.findByIdAndDelete(reviewId)
+    res.redirect(`/campgrounds/detail/${id}`)
 }))
 
 app.all(/(.*)/, (req,res,next) => {
