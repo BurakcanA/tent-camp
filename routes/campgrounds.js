@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const flash = require('connect-flash')
 const Campground = require('../models/campground.js')
 const catchAsync = require('../utils/catchAsync.js')
 const ExpressError = require('../utils/ExpressError.js')
@@ -26,12 +27,12 @@ router.get('/new' , async (req, res) => {
 
 router.post('/', validateCampgroundAsync, catchAsync( async (req, res, next) => {
     await Campground.insertOne(req.body.campground)
+    req.flash('success', 'New Campground Succesfully Added!')
     res.redirect('./campgrounds')
 }))
 
 router.get('/detail/:id', async (req, res) => {
     const campground = await Campground.findById(req.params.id).populate('reviews')
-    console.log(campground)
     res.render('campgrounds/detail.ejs', { campground })
 })
 
@@ -44,6 +45,7 @@ router.post('/edit/:id', validateCampgroundAsync, catchAsync( async (req, res) =
     const { id } = req.params
     const campground = req.body.campground
     await Campground.findByIdAndUpdate(id, campground,{new:true})
+    req.flash('success', 'Campground Succesfully Upgraded!')
     res.redirect(`/campgrounds/detail/${id}`)
 }))
 
