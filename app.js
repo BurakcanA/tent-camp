@@ -12,6 +12,7 @@ app.set('view engne','ejs')
 app.set('views',path.join(__dirname,'views'))
 app.engine('ejs',ejsMate)
 app.use(express.urlencoded({extended: true}))
+app.use(express.static(path.join(__dirname, 'public')))
 //Routes
 app.use('/campgrounds', campgrounds)
 app.use('/campgrounds/:id/reviews', reviews)
@@ -21,7 +22,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/Tent-Camp')
 db.on('error', err => console.log(`Connection Failed: ${err}`))
 db.once('open',() => console.log('Database Connected!'))
 
-app.get('/home', (req, res) => {
+app.get('/home', (req, res) => {s
     res.send('WELCOME TO TENT CAMP!')
 })
 
