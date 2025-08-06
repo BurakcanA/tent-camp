@@ -1,0 +1,14 @@
+<%- layout('./layouts/boilerPlate.ejs') %>
+<form class="mb-3 validated-form" action="/user/login" method="POST" novalidate>
+  <div class="mb-3">
+    <label class="form-label" for="title">Username :</label>
+    <input class="form-control" name="username" type="text" required />
+    <div class="invalid-feedback">Username is required</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="title">Password :</label>
+    <input class="form-control" name="password" type="password" required />
+    <div class="invalid-feedback">password is required</div>
+  </div>
+  <button class="btn btn-success">Login</button>
+</form>

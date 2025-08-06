@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const flash = require('connect-flash')
+const { isLoggedIn } = require('../middlewares/isLoggedIn.js')
 const Campground = require('../models/campground.js')
 const catchAsync = require('../utils/catchAsync.js')
 const ExpressError = require('../utils/ExpressError.js')
@@ -21,11 +22,11 @@ router.get('/', async (req, res) => {
     res.render('campgrounds/index.ejs', { campgrounds })
 })
 
-router.get('/new' , async (req, res) => {
+router.get('/new' , isLoggedIn, async (req, res) => {
     res.render('campgrounds/new.ejs')    
 })
 
-router.post('/', validateCampgroundAsync, catchAsync( async (req, res, next) => {
+router.post('/', isLoggedIn, validateCampgroundAsync, catchAsync( async (req, res, next) => {
     await Campground.insertOne(req.body.campground)
     req.flash('success', 'New Campground Succesfully Added!')
     res.redirect('./campgrounds')
@@ -36,12 +37,12 @@ router.get('/detail/:id', async (req, res) => {
     res.render('campgrounds/detail.ejs', { campground })
 })
 
-router.get('/edit/:id', async (req,res) => {
+router.get('/edit/:id', isLoggedIn, async (req,res) => {
     const campground = await Campground.findById(req.params.id)
     res.render('campgrounds/edit.ejs', { campground })
 })
 
-router.post('/edit/:id', validateCampgroundAsync, catchAsync( async (req, res) => {
+router.post('/edit/:id', isLoggedIn, validateCampgroundAsync, catchAsync( async (req, res) => {
     const { id } = req.params
     const campground = req.body.campground
     await Campground.findByIdAndUpdate(id, campground,{new:true})
@@ -49,7 +50,7 @@ router.post('/edit/:id', validateCampgroundAsync, catchAsync( async (req, res) =
     res.redirect(`/campgrounds/detail/${id}`)
 }))
 
-router.post('/delete/:id', async (req,res) => {
+router.post('/delete/:id', isLoggedIn, async (req,res) => {
     const { id } = req.params
     await Campground.findByIdAndDelete(id)
         .then(data => console.log(`Deleted,${data}`))
