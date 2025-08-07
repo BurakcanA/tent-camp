@@ -8,10 +8,14 @@
         <p class="card-text"><%= campground.description %></p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item"><%= campground.location %></li>
+        <li class="list-group-item text-muted"><%= campground.location %></li>
         <li class="list-group-item"><%= campground.price %> $</li>
+        <li class="list-group-item">
+          Suggested by <strong><%= campground.author.username %></strong>
+        </li>
         <li class="list-group-item"><%= campground.image %></li>
       </ul>
+      <% if(campground.author.equals(currentUser._id)) {%>
       <div class="card-body">
         <form action="/campgrounds/delete/<%= campground.id %>" method="POST">
           <a
@@ -22,6 +26,7 @@
           <button href="#" class="btn btn-danger card-link">Delete</button>
         </form>
       </div>
+      <% } %>
     </div>
   </div>
   <div class="col-6">

@@ -27,13 +27,14 @@ router.get('/new' , isLoggedIn, async (req, res) => {
 })
 
 router.post('/', isLoggedIn, validateCampgroundAsync, catchAsync( async (req, res, next) => {
+    req.body.campground.author = req.user._id;
     await Campground.insertOne(req.body.campground)
     req.flash('success', 'New Campground Succesfully Added!')
     res.redirect('./campgrounds')
 }))
 
 router.get('/detail/:id', async (req, res) => {
-    const campground = await Campground.findById(req.params.id).populate('reviews')
+    const campground = await Campground.findById(req.params.id).populate('reviews').populate('author')
     res.render('campgrounds/detail.ejs', { campground })
 })
 
