@@ -15,7 +15,7 @@
         </li>
         <li class="list-group-item"><%= campground.image %></li>
       </ul>
-      <% if(campground.author.equals(currentUser._id)) {%>
+      <% if(currentUser && campground.author.equals(currentUser._id)) {%>
       <div class="card-body">
         <form action="/campgrounds/delete/<%= campground.id %>" method="POST">
           <a
@@ -30,7 +30,7 @@
     </div>
   </div>
   <div class="col-6">
-    <% if(currentUser !== 0) {%>
+    <% if(currentUser) {%>
     <form
       action="/campgrounds/<%= campground.id %>/reviews"
       method="POST"
@@ -71,7 +71,7 @@
           by <%= review.author.username %>
         </h6>
         <p class="card-text"><%= review.body %></p>
-        <% if(currentUser != 0 && currentUser._id.equals(review.author._id)) {%>
+        <% if(currentUser && currentUser._id.equals(review.author._id)) {%>
         <form
           action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>"
           method="POST"

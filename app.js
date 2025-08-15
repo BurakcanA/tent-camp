@@ -36,13 +36,7 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 app.use((req, res, next) => {
-    if(req.user != null)
-    {
-        res.locals.currentUser = req.user
-    }else
-    {
-        res.locals.currentUser = 0
-    }
+    res.locals.currentUser = req.user
     res.locals.success = req.flash('success')
     res.locals.error = req.flash('error')
     next()
