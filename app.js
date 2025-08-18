@@ -9,7 +9,7 @@ const flash = require('connect-flash')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const Review = require('./models/review.js') //Models
-const User = require('./models/users.js')
+const User = require('./models/user.js')
 const campgroundRoutes = require('./routes/campgrounds.js') // Routes
 const reviewRoutes = require('./routes/reviews.js')
 const userRoutes = require('./routes/users.js')
@@ -57,7 +57,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/Tent-Camp')
 db.on('error', err => console.log(`Connection Failed: ${err}`))
 db.once('open',() => console.log('Database Connected!'))
 
-app.get('/home', (req, res) => {s
+app.get('/home', (req, res) => {
     res.send('WELCOME TO TENT CAMP!')
 })
 
