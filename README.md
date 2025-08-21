@@ -1,20 +1,24 @@
 # 🎪 Tent Camp
 
-Tent Camp is a simple full-stack Node.js practice project built with Express, MongoDB, and EJS. It demonstrates core concepts such as CRUD operations, server-side rendering, middleware, error handling, and basic database integration with Mongoose. This project is part of a full-stack learning journey and is ideal for junior developer portfolios.
+
+Tent Camp is a full-stack Node.js project built with Express, MongoDB, and EJS. It demonstrates core web development concepts, including CRUD operations, authentication, sessions, middleware, error handling, and database relationships. This project was built as part of a full-stack learning journey and serves as a portfolio piece.
 
 ---
 
 ## 🚀 Features
 
-- Full CRUD functionality for campgrounds
-- MongoDB database integration via Mongoose
-- Server-side rendering with EJS and EJS-Mate
-- Data validation using Joi
-- Bootstrap 5 for basic UI styling
-- Middleware and custom error handling
-- Organized route structure
+- Full CRUD functionality for campgrounds  
+- User authentication & authorization (register/login/logout)  
+- Session handling & flash messages  
+- Cookie parsing and management  
+- MongoDB relationships with Mongoose (users ↔ campgrounds ↔ reviews)  
+- Server-side rendering with EJS & EJS-Mate  
+- Data validation with Joi  
+- Bootstrap 5 for UI styling  
+- Middleware and custom error handling  
+- Organized routing structure  
 
-> Authentication, Express Sessions, Flash Messages, Cookie handling, and MongoDB relationships are **coming soon**.
+> **Coming soon**: Interactive maps with clustering support 🌍
 
 ---
 
@@ -63,6 +67,7 @@ nodemon app.js
 - models/ # Mongoose schemas
 - routes/ # Express route handlers
 - controllers/ # Controllers
+- cloudinary/ # Cloudinary config folder
 - public/ # Static assets (CSS, JS, images)
 - views/ # EJS templates
 - seeds/ # Seed script for dummy data
@@ -76,11 +81,11 @@ Once the server is running, open your browser and go to:
 
 http://localhost:3000
 
-## Explore the basic campground creation, editing, deletion, and detail views.
+Explore the basic campground creation, editing, deletion, and detail views.
 
 📌 Notes
 
-## This is a practice project and does not include production-ready features like adding files and map (yet). It’s a work in progress and will be updated as new features are added.
+## This is a practice project and may not be production-ready. It’s actively evolving, with map integration and clustering planned as the final major feature.
 
 📜 License
 
