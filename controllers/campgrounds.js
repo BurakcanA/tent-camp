@@ -11,6 +11,9 @@ module.exports.newPage = async (req, res) => {
 
 module.exports.new = async (req, res, next) => {
     req.body.campground.author = req.user._id;
+    const { campground } = req.body
+    campground.images = req.files.map(f => ({url: f.path, filename: f.filename}))
+    console.log(campground)
     await Campground.insertOne(req.body.campground)
     req.flash('success', 'New Campground Succesfully Added!')
     res.redirect('./campgrounds')

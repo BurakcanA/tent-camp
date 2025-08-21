@@ -6,7 +6,12 @@ const camgroundSchema = new mongoose.Schema({
     price: Number,
     description: String,
     location: String,  
-    image: String,
+    images: [
+        {
+            url: String,
+            filename: String,
+        }
+    ],
     author: 
         {
             type: mongoose.Schema.Types.ObjectId,
