@@ -6,6 +6,7 @@
   class="mb-3 validated-form"
   action="/campgrounds/edit/<%= campground.id %>"
   method="POST"
+  enctype="multipart/form-data"
   novalidate
 >
   <div class="mb-3">
@@ -59,16 +60,17 @@
     </div>
   </div>
   <div class="mb-3">
-    <label class="form-label" for="image">Image Url :</label>
-    <input
-      class="form-control"
-      type="text"
-      name="campground[image]"
-      value="<%= campground.image %>"
-      required
-    />
+    <label class="form-label" for="image">Add Image & Images </label>
+    <input class="form-control" type="file" name="image" multiple />
   </div>
-  <div class="invalid-feedback">Image Url is required</div>
+  <div class="invalid-feedback">
+    Image Url
+    <div class="mb-3">
+      <label class="form-label" for="image">Image </label>
+      <input class="form-control" type="file" name="image" multiple />
+    </div>
+    is required
+  </div>
   <button class="btn btn-secondary">Update</button>
 </form>
 <a href="/campgrounds">All Campgrounds</a>
