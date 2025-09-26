@@ -62,7 +62,7 @@ db.on('error', err => console.log(`Connection Failed: ${err}`))
 db.once('open',() => console.log('Database Connected!'))
 
 app.get('/home', (req, res) => {
-    res.send('WELCOME TO TENT CAMP!')
+    res.render('home.ejs')
 })
 
 app.all(/(.*)/, (req,res,next) => {
